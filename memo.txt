@@ -1,0 +1,26 @@
+http://localhost/seed_sns/members/login
+->not found エラーが発生する
+
+http://localhost/seed_sns_fw/members/login
+->routes.phpが実行される
+
+
+.htaccessファイルの設定のおかげで上のような動きの差がでます
+隠しファイル
+アクセスしてきたURLを制御する役割
+
+$_REQUEST
+$_GET,$_POST両方のパラメータを取得できるスーパーグローバル変数
+
+
+http://localhost/seed_sns_fw/members/login
+->http://localhost/seed_sns_fw/routes.php?url=members/login
+にアクセスしているように変更されている
+
+routes.php
+↓
+controllers/members_contoroller.php を呼び出し
+↓
+views/layouts/application.php　を呼び出し
+↓
+views/members/login.php を呼び出し
