@@ -16,7 +16,7 @@ switch ($action) {
 		$controller->signup($_POST,$_FILES);
 		break;
 	case 'login':
-		$controller->login();
+		$controller->login($_POST);
 		break;
 	case 'check':
 		$controller->check($_POST);
@@ -83,11 +83,11 @@ class MembersController {
 		  }
 		}
 
-//   //書き直し
-//   if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'rewrite'){
-//       $_POST = $_SESSION['join'];
-//       $error['rewrite'] = true;
-//   }
+    //   //書き直し
+    //   if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'rewrite'){
+    //       $_POST = $_SESSION['join'];
+    //       $error['rewrite'] = true;
+    //   }
 
 
 		// 見た目HTMLの表示
@@ -99,12 +99,34 @@ class MembersController {
 	}
 
 	// members/login
-	function login(){
+	function login($post){
 		
 		// post送信されたら、認証処理を行い、tweets/indexにリダイレクトしてください
 		// tweets/indexにアクセスしたらつぶやき一覧のモックアップが出るようにして欲しい
 		// 認証処理部分は、モデルファイルに記述して、コントローラーは簡素に仕上げる 
 		// 引数で$_POSTを受け取る必要があります
+
+    //フォームからポスト送信されたら
+    // var_dump($post);
+    if (!empty($post)){
+
+      // var_dump("POST送信されたよ");
+
+      //モデルを呼び出す
+      $member = new Member();
+      
+      //ログイン処理の実行($errorにはログインが失敗した時に情報が入るようになる)
+      $error = $member->login($post);
+
+      //エラーが存在しなかったらリダイレクト
+      if (empty($error)){
+
+        
+        header("Location: ../tweets/index");    
+      }
+    }
+
+
 
 		echo 'members login';
 
